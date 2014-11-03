@@ -1,0 +1,86 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MyActivity">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:id="@+id/music_label"
+        android:layout_above="@+id/stop_btn"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textIsSelectable="false"
+        android:textSize="25sp"
+        android:gravity="center"
+        android:textColor="#ff555555"
+        android:textStyle="bold" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Play"
+        android:id="@+id/play_btn"
+        android:layout_below="@+id/music_label"
+        android:layout_toLeftOf="@+id/skip_btn"
+        android:layout_toStartOf="@+id/skip_btn"
+        android:layout_marginRight="0dp"
+        android:textColor="#ffffffff"
+        android:textStyle="bold"
+        android:textSize="25dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pause"
+        android:id="@+id/pause_btn"
+        android:layout_alignTop="@+id/play_btn"
+        android:layout_toLeftOf="@+id/play_btn"
+        android:layout_toStartOf="@+id/play_btn"
+        android:layout_marginRight="0dp"
+        android:textColor="#ffffffff"
+        android:textStyle="bold"
+        android:textSize="25dp" />
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:id="@+id/back_btn"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textColor="#ffffffff"
+        android:textStyle="bold"
+        android:textSize="25dp"
+        android:layout_alignBottom="@+id/stop_btn"
+        android:layout_toLeftOf="@+id/pause_btn"
+        android:layout_toStartOf="@+id/pause_btn"
+        android:layout_below="@+id/music_label" />
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Skip"
+        android:id="@+id/skip_btn"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textColor="#ffffffff"
+        android:textStyle="bold"
+        android:textSize="25dp"
+        android:layout_alignBottom="@+id/back_btn"
+        android:layout_below="@+id/music_label" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stop"
+        android:id="@+id/stop_btn"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="175dp"
+        android:layout_marginTop="60dp"
+        android:textColor="#ffffffff"
+        android:textStyle="bold"
+        android:textSize="25dp" />
+
+</RelativeLayout>
