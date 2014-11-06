@@ -2,21 +2,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:baselineAligned="false"
-    tools:context=".MyActivity">
+    tools:context=".MainActivity">
 
     <LinearLayout android:id="@+id/container1"
-        android:layout_width="fill_parent"
+        android:layout_width="0dp"
         android:layout_height="fill_parent"
-        android:layout_weight=".15"
-        android:orientation="vertical"/>
+        android:layout_weight="0.7"
+        android:orientation="vertical" />
 
-    <LinearLayout
-        android:id="@+id/container2"
-        android:layout_width="fill_parent"
+    <LinearLayout android:id="@+id/container2"
+        android:layout_width="0dp"
         android:layout_height="fill_parent"
-        android:layout_weight=".5"
+        android:layout_weight="0.2"
         android:orientation="vertical"/>
 
 </LinearLayout>

@@ -12,101 +12,52 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Random;
 
-public class MyActivity extends Activity implements OnClickListener, ServiceConnection {
+public class MyActivity extends Activity implements ServiceConnection, ControlFragment.MasterClickListener {
 
     private static final String PLAY_STATE = "MyActivity.PLAY_STATE";
 
     ArrayList<String> songArray = new ArrayList<String>();
     boolean playing = false;
-    int currentSong = 1;
+    public static int currentSong = 1;
     TextView musicLabel;
     Bundle bundle;
+    Intent intent;
+    PlayService myService;
+    ArtFragment frag2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
 
-        songArray.add(0, "android.resource://" + getPackageName() + "/raw/david_guetta_dangerous");
-        songArray.add(1, "android.resource://" + getPackageName() + "/raw/john_newman_love_me_again");
-        songArray.add(2, "android.resource://" + getPackageName() + "/raw/michael_buble_feeling_good");
-        songArray.add(3, "android.resource://" + getPackageName() + "/raw/the_heavy_what_makes_a_good_man");
+        if(savedInstanceState == null) {
+            ControlFragment frag = ControlFragment.newInstance();
+            getFragmentManager().beginTransaction().replace(R.id.container2, frag, ControlFragment.TAG).commit();
 
-        findViewById(R.id.play_btn).setOnClickListener(this);
-        findViewById(R.id.stop_btn).setOnClickListener(this);
-        findViewById(R.id.skip_btn).setOnClickListener(this);
-        findViewById(R.id.pause_btn).setOnClickListener(this);
-        findViewById(R.id.back_btn).setOnClickListener(this);
-        musicLabel = (TextView) findViewById(R.id.music_label);
-    }
+            frag2 = ArtFragment.newInstance();
+            getFragmentManager().beginTransaction().replace(R.id.container1, frag2, ArtFragment.TAG).commit();
 
-    @Override
-    public void onClick(View v) {
-        Intent intent = new Intent(this, PlayService.class);
-        bundle = new Bundle();
-
-        if(v.getId() == R.id.play_btn) {
-            if (!playing) {
-                startService(intent);
-                bindService(intent, this, Context.BIND_AUTO_CREATE);
-                bundle.putBoolean(PLAY_STATE, true);
-                playing = true;
-            }
-        } else if(v.getId() == R.id.pause_btn){
-            if (playing) {
-                unbindService(this);
-                stopService(intent);
-                bundle.putBoolean(PLAY_STATE, false);
-                playing = false;
-            }
-        }else if(v.getId() == R.id.stop_btn) {
-            if (playing) {
-                unbindService(this);
-                stopService(intent);
-                bundle.putBoolean(PLAY_STATE, false);
-                playing = false;
-                currentSong = 1;
-                musicLabel.setText("Nothing Playing...");
-            }
-        } else if(v.getId() == R.id.skip_btn){
-            if (playing) {
-                unbindService(this);
-                stopService(intent);
-                currentSong++;
-                if (currentSong >= songArray.size() + 1) {
-                    currentSong = 1;
-                }
-                startService(intent);
-                bindService(intent, this, Context.BIND_AUTO_CREATE);
-            }else {
-                currentSong++;
-                if (currentSong >= songArray.size() + 1) {
-                    currentSong = 1;
-                }
-            }
-        }else if(v.getId() == R.id.back_btn) {
-            if (playing) {
-                unbindService(this);
-                stopService(intent);
-                currentSong--;
-                if (currentSong <= 0) {
-                    currentSong = songArray.size();
-                }
-                startService(intent);
-                bindService(intent, this, Context.BIND_AUTO_CREATE);
-            }else {
-                currentSong--;
-                if (currentSong < 0) {
-                    currentSong = songArray.size();
-                }
-            }
         }
+
+        playing = PlayService.isRunning(this);
+
+        songArray.add(0, "android.resource://" + getPackageName() + "/raw/one");
+        songArray.add(1, "android.resource://" + getPackageName() + "/raw/david_guetta_dangerous");
+        songArray.add(2, "android.resource://" + getPackageName() + "/raw/john_newman_love_me_again");
+        songArray.add(3, "android.resource://" + getPackageName() + "/raw/two");
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+
+        intent = new Intent(this, PlayService.class);
+        startService(intent);
+        bindService(intent, this, Context.BIND_AUTO_CREATE);
 
         //Intent intent = new Intent(this, SimpleService.class);
         //bindService(intent, this, Context.BIND_AUTO_CREATE);
@@ -126,39 +77,119 @@ public class MyActivity extends Activity implements OnClickListener, ServiceConn
     protected void onResume() {
         super.onResume();
 
+        playing = PlayService.isRunning(this);
+
     }
 
     @Override
     public void onServiceConnected(ComponentName name, IBinder service) {
 
         PlayService.BoundServiceBinder binder = (PlayService.BoundServiceBinder) service;
-        PlayService myService = binder.getService();
+        myService = binder.getService();
 
-        switch (currentSong){
-            case 1:
-                myService.showToast("David Guetta - Dangerous");
-                musicLabel.setText("David Guetta - Dangerous");
-                break;
-            case 2:
-                myService.showToast("John Newman - Love Me Again");
-                musicLabel.setText("John Newman - Love Me Again");
-                break;
-            case 3:
-                myService.showToast("Michael Buble - Feeling Good");
-                musicLabel.setText("Michael Buble - Feeling Good");
-                break;
-            case 4:
-                myService.showToast("The Heavy - What Makes a Good Man");
-                musicLabel.setText("The Heavy - What Makes a Good Man");
-                break;
-
-        }
-
-        myService.playSong(songArray.get(currentSong - 1), songArray, currentSong - 1);
     }
 
     @Override
     public void onServiceDisconnected(ComponentName name) {
 
+        unbindService(this);
+
     }
+
+    public void updateNotification(){
+        switch (currentSong){
+            case 1:
+                myService.showNotification("David Guetta - Dangerous");
+                break;
+            case 2:
+                myService.showNotification("John Newman - Love Me Again");
+                break;
+            case 3:
+                myService.showNotification("Michael Buble - Feeling Good");
+                break;
+            case 4:
+                myService.showNotification("The Heavy - What Makes a Good Man");
+                break;
+
+        }
+    }
+
+    @Override
+    public void btnPressed(View v) {
+        View view1 = v;
+
+
+        boolean isPlaying = PlayService.isRunning(this);
+
+        if(v.getId() == R.id.play_pause_btn) {
+            if (!isPlaying) {
+                myService.playSong(songArray.get(currentSong - 1), songArray, currentSong - 1);
+                ControlFragment.playPauseBtn.setText("Pause");
+                updateNotification();
+            }else {
+                ControlFragment.playPauseBtn.setText("Play");
+                myService.pausePlayer();
+            }
+        }else if(v.getId() == R.id.stop_btn) {
+            if (isPlaying) {
+                myService.stopPlayer();
+                currentSong = 1;
+                ControlFragment.playPauseBtn.setText("Play");
+            }
+        } else if(v.getId() == R.id.skip_btn){
+            if (isPlaying) {
+
+                if (ControlFragment.isShuffled()){
+                    int currentIndex = currentSong;
+                    randomInt();
+                    if (currentIndex == currentSong){
+                        randomInt();
+                    }
+                }else if (ControlFragment.isRepeating()){
+                }else {
+                    currentSong = myService.musicIndex + 1;
+                    currentSong++;
+                    if (currentSong >= songArray.size() + 1) {
+                        currentSong = 1;
+                    }
+                }
+                myService.fBControles(currentSong - 1);
+                updateNotification();
+
+            }else {
+                currentSong++;
+                if (currentSong >= songArray.size() + 1) {
+                    currentSong = 1;
+                }
+            }
+        }else if(v.getId() == R.id.back_btn) {
+            if (isPlaying) {
+                currentSong = myService.musicIndex + 1;
+                currentSong--;
+                if (currentSong <= 0) {
+                    currentSong = songArray.size();
+                }
+                myService.fBControles(currentSong - 1);
+                updateNotification();
+            }else {
+                currentSong--;
+                if (currentSong < 0) {
+                    currentSong = songArray.size();
+                }
+            }
+        }
+
+
+        if (frag2 == null){
+            frag2 = ArtFragment.newInstance();
+            getFragmentManager().beginTransaction().replace(R.id.container1, frag2, ArtFragment.TAG).commit();
+            frag2.updateDisplay(currentSong);
+        }
+    }
+
+    public void randomInt(){
+        Random r = new Random();
+        currentSong = r.nextInt(songArray.size()) + 1;
+    }
+
 }
