@@ -1,17 +1,11 @@
 package com.android.nazirshuqair.musicplayer;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 /**
@@ -20,6 +14,7 @@ import android.widget.TextView;
 public class ArtFragment extends Fragment {
 
     public static final String TAG = "ArtFragment.TAG";
+    private static final String ARG_INDEX = "ArtFragment.ARG_INDEX";
 
     ImageView songArt;
     TextView songLabel;
@@ -29,14 +24,20 @@ public class ArtFragment extends Fragment {
         return frag;
     }
 
+    public static ArtFragment newInstance(int _currentSong){
+        ArtFragment frag = new ArtFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_INDEX, _currentSong);
+        frag.setArguments(args);
+
+        return frag;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //Connecting the view
         View myFragmentView = inflater.inflate(R.layout.fragment_art, container, false);
-
-        songArt = (ImageView) myFragmentView.findViewById(R.id.song_art);
-        songLabel = (TextView) myFragmentView.findViewById(R.id.art_label);
 
         //Connecting the ListView
         return myFragmentView;
@@ -46,9 +47,16 @@ public class ArtFragment extends Fragment {
     public void onActivityCreated(Bundle _savedInstanceState) {
         super.onActivityCreated(_savedInstanceState);
 
+        Bundle args = getArguments();
+        if (args != null && args.containsKey(ARG_INDEX)){
+            updateDisplay(args.getInt(ARG_INDEX));
+        }
     }
 
     public void updateDisplay(int _currentSong){
+
+        songArt = (ImageView) getView().findViewById(R.id.song_art);
+        songLabel = (TextView) getView().findViewById(R.id.art_label);
 
         switch (_currentSong){
             case 1:

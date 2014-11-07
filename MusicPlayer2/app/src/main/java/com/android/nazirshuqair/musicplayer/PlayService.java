@@ -6,6 +6,8 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -17,6 +19,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Created by nazirshuqair on 11/5/14.
+ */
+
 
 public class PlayService extends Service implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener{
 
@@ -26,6 +32,7 @@ public class PlayService extends Service implements MediaPlayer.OnPreparedListen
 
     MediaPlayer player;
     int musicIndex = 0;
+    int pausedSong = 0;
 
     ArrayList<String> musicList;
 
@@ -39,16 +46,12 @@ public class PlayService extends Service implements MediaPlayer.OnPreparedListen
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        //int songToPlay = intent.getIntExtra("MUSIC_NUM", 0);
-        //Uri testing = Uri.parse(songArray.get(songToPlay));
         return Service.START_NOT_STICKY;
     }
 
     @Override
     public void onDestroy() {
         stopForeground(true);
-        player.stop();
-        player.release();
         setRunning(false);
         super.onDestroy();
     }
@@ -84,6 +87,8 @@ public class PlayService extends Service implements MediaPlayer.OnPreparedListen
             }
         }
         playAudio(path);
+        updateNotification();
+
     }
 
 
@@ -102,11 +107,20 @@ public class PlayService extends Service implements MediaPlayer.OnPreparedListen
 
         setRunning(true);
 
+
+
         musicIndex = index;
 
         musicList = songList;
 
-        if(player == null) {
+        if (player != null) {
+            if (pausedSong == index) {
+                player.prepareAsync();
+            } else {
+                player.reset();
+                playAudio(musicUri);
+            }
+        } else if(player == null) {
             // Easy way: mPlayer = MediaPlayer.create(this, R.raw.something_elated);
             // Easy way doesn't require a call to prepare or prepareAsync. Only works for resources.
 
@@ -123,10 +137,8 @@ public class PlayService extends Service implements MediaPlayer.OnPreparedListen
                 player.release();
                 player = null;
             }
+            player.prepareAsync();
         }
-
-        player.prepareAsync();
-
 
     }
 
@@ -143,28 +155,24 @@ public class PlayService extends Service implements MediaPlayer.OnPreparedListen
         }
     }
 
-    public void showNotification(String title) {
+    public void showNotification(String title, Bitmap img) {
 
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        builder.setSmallIcon(R.drawable.ic_launcher);
-        builder.setContentTitle("Playing...");
-        builder.setContentText(title);
+        builder.setSmallIcon(R.drawable.shuffle);
+        builder.setContentTitle(title);
         builder.setAutoCancel(false);
         builder.setOngoing(true);
         builder.setContentIntent(lunchHome());
-
+        builder.setStyle(new NotificationCompat.BigPictureStyle().bigPicture(img));
         startForeground(FOREGROUND_NOTIFICATION, builder.build());
-
     }
 
     public PendingIntent lunchHome(){
 
-
         Intent intent = new Intent(this, MyActivity.class);
 
         PendingIntent pIntent = PendingIntent.getActivity(this, REQUEST_NOTIFY_LAUNCH, intent, 0);
-
 
         return pIntent;
     }
@@ -186,12 +194,15 @@ public class PlayService extends Service implements MediaPlayer.OnPreparedListen
         player.stop();
         player.release();
         player = null;
+        musicIndex = 0;
         setRunning(false);
+        stopForeground(true);
     }
 
-    public void pausePlayer(){
+    public void pausePlayer(int _songPaused){
         player.stop();
         setRunning(false);
+        pausedSong = _songPaused - 1;
     }
 
     public void fBControles(int index){
@@ -203,6 +214,24 @@ public class PlayService extends Service implements MediaPlayer.OnPreparedListen
     public void randomInt(){
         Random r = new Random();
         musicIndex = r.nextInt(musicList.size());
+    }
+
+    public void updateNotification(){
+        switch (musicIndex + 1){
+            case 1:
+                showNotification("David Guetta - Dangerous", BitmapFactory.decodeResource(getResources(), R.drawable.dangerous));
+                break;
+            case 2:
+                showNotification("John Newman - Love Me Again", BitmapFactory.decodeResource(getResources(), R.drawable.lovemeagain));
+                break;
+            case 3:
+                showNotification("Michael Buble - Feeling Good", BitmapFactory.decodeResource(getResources(), R.drawable.feelinggood));
+                break;
+            case 4:
+                showNotification("The Heavy - What Makes a Good Man", BitmapFactory.decodeResource(getResources(), R.drawable.whatmakesagoodman));
+                break;
+
+        }
     }
 
 
