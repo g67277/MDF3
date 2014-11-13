@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditText
+        android:layout_width="250dp"
+        android:layout_height="180dp"
+        android:id="@+id/location_text_edit"
+        android:hint="Location"
+        android:gravity="center"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/circuit_text_edit"
+        android:layout_alignEnd="@+id/circuit_text_edit"
+        android:layout_alignLeft="@+id/circuit_text_edit"
+        android:layout_alignStart="@+id/circuit_text_edit"
+        android:textColor="#7d7d7d"
+        android:textSize="40sp" />
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:id="@+id/circuit_text_edit"
+        android:hint="Circuit Name"
+        android:singleLine="true"
+        android:layout_below="@+id/location_text_edit"
+        android:layout_alignLeft="@+id/date_text_edit"
+        android:layout_alignStart="@+id/date_text_edit"
+        android:textSize="20sp" />
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:id="@+id/date_text_edit"
+        android:hint="Race Date"
+        android:layout_below="@+id/circuit_text_edit"
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp" />
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:id="@+id/lapsNum_text_edit"
+        android:hint="Number of Laps"
+        android:layout_below="@+id/date_text_edit"
+        android:layout_centerHorizontal="true"
+        android:inputType="text"
+        android:singleLine="true"
+        android:textSize="20sp" />
+
+
+
+</RelativeLayout>
