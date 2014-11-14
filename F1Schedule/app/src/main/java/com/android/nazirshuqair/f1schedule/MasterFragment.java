@@ -2,6 +2,11 @@ package com.android.nazirshuqair.f1schedule;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.PendingIntent;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -13,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RemoteViews;
 import android.widget.SimpleAdapter;
 
 import java.io.IOException;
@@ -34,8 +40,6 @@ public class MasterFragment extends Fragment {
 
     //ListView for the games
     ListView racesListView;
-
-    EditText et;
 
     private ActionMode mActionMode;
     private int mRaceSelected = -1;

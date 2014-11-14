@@ -3,7 +3,7 @@
     android:layout_height="wrap_content"
     android:minHeight="48dp"
     android:padding="8dp"
-    android:id="@+id/article_item"
+    android:id="@+id/race_item"
     android:orientation="vertical" >
 
     <LinearLayout android:layout_width="fill_parent"

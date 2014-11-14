@@ -36,7 +36,8 @@
         android:hint="Race Date"
         android:layout_below="@+id/circuit_text_edit"
         android:layout_centerHorizontal="true"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:inputType="date" />
 
     <EditText
         android:layout_width="300dp"
@@ -45,9 +46,9 @@
         android:hint="Number of Laps"
         android:layout_below="@+id/date_text_edit"
         android:layout_centerHorizontal="true"
-        android:inputType="text"
         android:singleLine="true"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:inputType="number" />
 
 
 

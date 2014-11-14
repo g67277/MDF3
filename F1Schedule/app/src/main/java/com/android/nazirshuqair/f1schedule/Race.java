@@ -55,11 +55,11 @@ public class Race implements Serializable {
         raceLapNum = "";
     }
 
-    public Race(String id, String email, String relation, String num) {
-        this.raceLocation = id;
-        this.raceCircuitName = email;
-        this.raceDate = relation;
-        this.raceLapNum = num;
+    public Race(String location, String circuit, String date, String lap) {
+        this.raceLocation = location;
+        this.raceCircuitName = circuit;
+        this.raceDate = date;
+        this.raceLapNum = lap;
     }
 
     public void setData(Race data) {
