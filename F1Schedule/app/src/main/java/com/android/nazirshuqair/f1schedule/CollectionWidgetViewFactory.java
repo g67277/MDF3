@@ -42,6 +42,7 @@ public class CollectionWidgetViewFactory implements RemoteViewsService.RemoteVie
 
     private void readFromFile() throws IOException, ClassNotFoundException {
 
+        //clears the list, searches custom directory, and re-populate with available files
         File dir = new File("/data/data/com.android.nazirshuqair.f1schedule/app_mydir");
         File[] filelist = dir.listFiles();
         mRacesList.clear();
@@ -109,7 +110,6 @@ public class CollectionWidgetViewFactory implements RemoteViewsService.RemoteVie
     public void onDataSetChanged() {
         // Heavy lifting code can go here without blocking the UI.
         // You would update the data in your collection here as well.
-        mRacesList.clear();
         try {
             readFromFile();
         } catch (IOException e) {

@@ -43,23 +43,6 @@ public class ViewFragment extends Fragment {
         return frag;
     }
 
-    public interface DeleteListener {
-        public void deleteContact(String _circuit);
-    }
-
-    private DeleteListener mListener;
-
-    @Override
-    public void onAttach(Activity _activity) {
-        super.onAttach(_activity);
-
-        if(_activity instanceof DeleteListener) {
-            mListener = (DeleteListener)_activity;
-        } else {
-            throw new IllegalArgumentException("Containing activity must implement OnButtonClickListener interface");
-        }
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -79,56 +62,6 @@ public class ViewFragment extends Fragment {
                     args.getString(ARG_CIRCUIT),
                     args.getString(ARG_DATE),
                     args.getString(ARG_LAPS));
-
-            /*Button deleteBtn = (Button) getView().findViewById(R.id.delete_button);
-            deleteBtn.setOnClickListener(new Button.OnClickListener(){
-
-                @Override
-                public void onClick(View view) {
-                    mListener.deleteContact(args.getString(ARG_LOCATION));
-                }
-            });
-
-            Button callBtn = (Button) getView().findViewById(R.id.call_button);
-            callBtn.setOnClickListener(new Button.OnClickListener(){
-
-                @Override
-                public void onClick(View view) {
-
-                    String phoneNumPlain = args.getString(ARG_LAPS).replaceAll("\\D", "");
-                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumPlain));
-                    startActivity(intent);
-                }
-            });
-
-            Button textBtn = (Button) getView().findViewById(R.id.message_button);
-            textBtn.setOnClickListener(new Button.OnClickListener(){
-
-                @Override
-                public void onClick(View view) {
-                    String phoneNumPlain = args.getString(ARG_LAPS).replaceAll("\\D", "");
-
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", phoneNumPlain, null)));
-
-                }
-            });
-
-            Button emailBtn = (Button) getView().findViewById(R.id.email_button);
-            emailBtn.setOnClickListener(new Button.OnClickListener(){
-
-                @Override
-                public void onClick(View view) {
-
-                    Intent i = new Intent(Intent.ACTION_SEND);
-                    i.setType("message/rfc822");
-                    i.putExtra(Intent.EXTRA_EMAIL  , new String[]{args.getString(ARG_CIRCUIT)});
-                    try {
-                        startActivity(Intent.createChooser(i, "Send mail..."));
-                    } catch (android.content.ActivityNotFoundException ex) {
-                        //Toast.makeText(MyActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });*/
         }
 
     }

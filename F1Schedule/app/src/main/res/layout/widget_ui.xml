@@ -1,24 +1,33 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:id="@+id/race_widget"
-    android:background="@android:color/background_dark" >
+    android:background="#f5ffffff"
+    android:id="@+id/race_widget" >
+
+
 
     <Button
         android:layout_width="fill_parent"
-        android:layout_height="45dp"
+        android:layout_height="90dp"
         android:text="Add"
-        android:id="@+id/add_race" />
+        android:textColor="#ffffff"
+        android:background="@xml/edittext_shadow"
+        android:id="@+id/add_race"
+        android:textSize="40dp" />
 
     <ListView android:id="@+id/race_widget_list"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/add_race" />
 
     <TextView android:id="@+id/empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="No Data" />
+        android:text="No Data"
+        android:layout_alignTop="@+id/race_widget_list"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
-</LinearLayout>
+</RelativeLayout>

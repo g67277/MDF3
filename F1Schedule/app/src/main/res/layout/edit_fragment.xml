@@ -4,8 +4,14 @@
     android:layout_height="fill_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="200dp"
+        android:id="@+id/background"
+        android:background="@xml/edittext_shadow"/>
+
     <EditText
-        android:layout_width="250dp"
+        android:layout_width="340dp"
         android:layout_height="180dp"
         android:id="@+id/location_text_edit"
         android:hint="Location"
@@ -15,22 +21,24 @@
         android:layout_alignEnd="@+id/circuit_text_edit"
         android:layout_alignLeft="@+id/circuit_text_edit"
         android:layout_alignStart="@+id/circuit_text_edit"
-        android:textColor="#7d7d7d"
-        android:textSize="40sp" />
+        android:textColor="#ffffffff"
+        android:textColorHint="#ffffffff"
+        android:textSize="40sp"/>
 
     <EditText
-        android:layout_width="300dp"
+        android:layout_width="340dp"
         android:layout_height="60dp"
         android:id="@+id/circuit_text_edit"
         android:hint="Circuit Name"
         android:singleLine="true"
-        android:layout_below="@+id/location_text_edit"
+        android:layout_below="@+id/background"
         android:layout_alignLeft="@+id/date_text_edit"
         android:layout_alignStart="@+id/date_text_edit"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:layout_marginTop="4dp" />
 
     <EditText
-        android:layout_width="300dp"
+        android:layout_width="340dp"
         android:layout_height="60dp"
         android:id="@+id/date_text_edit"
         android:hint="Race Date"
@@ -40,7 +48,7 @@
         android:inputType="date" />
 
     <EditText
-        android:layout_width="300dp"
+        android:layout_width="340dp"
         android:layout_height="60dp"
         android:id="@+id/lapsNum_text_edit"
         android:hint="Number of Laps"

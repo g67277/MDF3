@@ -7,6 +7,7 @@ import java.io.Serializable;
  */
 public class Race implements Serializable {
 
+    //required to be able to save serializable objects
     private static final long serialVersionUID = -7791154359356162736L;
 
     public String raceLocation;
@@ -20,33 +21,21 @@ public class Race implements Serializable {
         return raceLapNum;
     }
 
-    public void setRaceLapNum(String raceLapNum) {
-        this.raceLapNum = raceLapNum;
-    }
 
     public String getRaceLocation() {
         return raceLocation;
     }
 
-    public void setRaceLocation(String raceLocation) {
-        this.raceLocation = raceLocation;
-    }
 
     public String getRaceCircuitName() {
         return raceCircuitName;
     }
 
-    public void setRaceCircuitName(String raceCircuitName) {
-        this.raceCircuitName = raceCircuitName;
-    }
 
     public String getRaceDate() {
         return raceDate;
     }
 
-    public void setRaceDate(String raceDate) {
-        this.raceDate = raceDate;
-    }
 
     public Race(){
         raceLocation = "";

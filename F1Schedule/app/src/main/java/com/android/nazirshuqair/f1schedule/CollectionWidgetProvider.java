@@ -14,10 +14,12 @@ import android.widget.RemoteViews;
  */
 public class CollectionWidgetProvider extends AppWidgetProvider {
 
-
+    //intent filter to open details screen
     public static final String ACTION_VIEW_DETAILS = "com.android.ACTION_VIEW_DETAILS";
     public static final String EXTRA_ITEM = "com.android.CollectionWidgetProvider.EXTRA_ITEM";
+    //intent filter to open form screen
     public static final String WIDGET_BUTTON = "com.android.WIDGET_BUTTON";
+
 
     int widgetId;
 
@@ -27,25 +29,25 @@ public class CollectionWidgetProvider extends AppWidgetProvider {
 
         for(int i = 0; i < appWidgetIds.length; i++) {
 
+            // determins the open widgets
             widgetId = appWidgetIds[i];
+            // refresh widget screen
+            appWidgetManager.notifyAppWidgetViewDataChanged(widgetId, R.id.race_widget_list);
 
             Intent intent = new Intent(context, CollectionWidgetService.class);
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
 
+            //retrieves the appropriate view
             RemoteViews widgetView = new RemoteViews(context.getPackageName(), R.layout.widget_ui);
             widgetView.setRemoteAdapter(R.id.race_widget_list, intent);
             widgetView.setEmptyView(R.id.race_widget_list, R.id.empty);
 
+            //creating a pending intent for the details screent
             Intent detailIntent = new Intent(ACTION_VIEW_DETAILS);
             PendingIntent pIntent = PendingIntent.getBroadcast(context, 0, detailIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             widgetView.setPendingIntentTemplate(R.id.race_widget_list, pIntent);
 
-            /*Intent addIntent = new Intent(context, DetailActivity.class);
-            addIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
-            addIntent.putExtra("edit", true);
-            PendingIntent pIntent2 = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            widgetView.setOnClickPendingIntent(R.id.add_race, pIntent2);*/
-
+            //creating a pending intent based on button for form screen
             Intent addIntent = new Intent(WIDGET_BUTTON);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, addIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             widgetView.setOnClickPendingIntent(R.id.add_race, pendingIntent);
@@ -74,11 +76,11 @@ public class CollectionWidgetProvider extends AppWidgetProvider {
                 context.startActivity(details);
             }
         }else if (WIDGET_BUTTON.equals(intent.getAction())) {
-            //your code here
-           /*Intent add = new Intent(context, DetailActivity.class);
+
+           Intent add = new Intent(context, DetailActivity.class);
             add.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             add.putExtra("edit", true);
-            context.startActivity(add);*/
+            context.startActivity(add);
         }
 
         super.onReceive(context, intent);

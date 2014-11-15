@@ -17,7 +17,7 @@ import java.io.ObjectOutputStream;
 /**
  * Created by nazirshuqair on 10/13/14.
  */
-public class DetailActivity extends Activity implements EditFragment.MasterClickListener, ViewFragment.DeleteListener {
+public class DetailActivity extends Activity implements EditFragment.MasterClickListener{
 
     public static final String EXTRA_ITEM = "com.android.DetailActivity.EXTRA_ITEM";
 
@@ -28,9 +28,11 @@ public class DetailActivity extends Activity implements EditFragment.MasterClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        //enables the back button in the action bar
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#a6d815")));
+        //changes the action bar color
+        getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ff113cd8")));
 
         Intent intent = getIntent();
 
@@ -50,8 +52,6 @@ public class DetailActivity extends Activity implements EditFragment.MasterClick
                 getFragmentManager().beginTransaction().replace(R.id.detail_activity, frag, ViewFragment.TAG).commit();
             }
         }
-
-
     }
 
     @Override
@@ -96,7 +96,6 @@ public class DetailActivity extends Activity implements EditFragment.MasterClick
         }
 
         return super.onCreateOptionsMenu(menu);
-
     }
 
     //Write the object to storage
@@ -127,16 +126,6 @@ public class DetailActivity extends Activity implements EditFragment.MasterClick
         }
 
         setResult(RESULT_OK);
-        finish();
-
-        //Toast.makeText(this, "Saved Successfully", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void deleteContact(String _circuit) {
-        Intent intent = new Intent();
-        intent.putExtra("raceCircuit", _circuit);
-        setResult(RESULT_OK, intent);
         finish();
     }
 }

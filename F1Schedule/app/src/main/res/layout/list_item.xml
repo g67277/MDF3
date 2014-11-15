@@ -16,9 +16,10 @@
 
     <TextView
         android:layout_width="fill_parent"
-        android:layout_height="35dp"
+        android:layout_height="25dp"
         android:id="@+id/circuit_date_item"
-        android:textSize="25sp"
+        android:textSize="18sp"
+        android:gravity="right"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp" />
 </LinearLayout>
