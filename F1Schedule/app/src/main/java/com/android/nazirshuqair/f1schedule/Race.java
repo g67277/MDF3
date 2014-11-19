@@ -3,7 +3,7 @@ package com.android.nazirshuqair.f1schedule;
 import java.io.Serializable;
 
 /**
- * Created by nazirshuqair on 11/12/14.
+ * Created by nazirshuqair on 11/11/14.
  */
 public class Race implements Serializable {
 

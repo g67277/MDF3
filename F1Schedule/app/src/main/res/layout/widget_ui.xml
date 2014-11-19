@@ -26,8 +26,8 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="No Data"
+        android:layout_below="@+id/add_race"
         android:layout_alignTop="@+id/race_widget_list"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentLeft="true" />
 
 </RelativeLayout>

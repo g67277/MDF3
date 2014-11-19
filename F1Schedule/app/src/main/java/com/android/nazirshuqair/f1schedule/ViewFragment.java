@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 /**
- * Created by nazirshuqair on 10/14/14.
+ * Created by nazirshuqair on 11/11/14.
  */
 public class ViewFragment extends Fragment {
 

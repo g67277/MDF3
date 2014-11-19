@@ -1,6 +1,8 @@
 package com.android.nazirshuqair.f1schedule;
 
 import android.app.Activity;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,7 +17,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 
 /**
- * Created by nazirshuqair on 10/13/14.
+ * Created by nazirshuqair on 11/11/14.
  */
 public class DetailActivity extends Activity implements EditFragment.MasterClickListener{
 
@@ -125,7 +127,19 @@ public class DetailActivity extends Activity implements EditFragment.MasterClick
             e.printStackTrace();
         }
 
+        updateWidget();
+
         setResult(RESULT_OK);
         finish();
+    }
+
+    public void updateWidget(){
+
+        AppWidgetManager manager = AppWidgetManager.getInstance(getApplicationContext());
+        int [] widgetID = manager.getAppWidgetIds(new ComponentName(getApplicationContext(), CollectionWidgetProvider.class));
+        if (widgetID.length > 0){
+            new CollectionWidgetProvider().onUpdate(getApplicationContext(), manager, widgetID);
+        }
+
     }
 }

@@ -9,10 +9,11 @@
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:id="@+id/circuit_name_item"
-        android:textSize="40sp"
+        android:textSize="28sp"
         android:textColor="#7d7d7d"
         android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp" />
+        android:layout_marginRight="25dp"
+        android:singleLine="true" />
 
     <TextView
         android:layout_width="fill_parent"
