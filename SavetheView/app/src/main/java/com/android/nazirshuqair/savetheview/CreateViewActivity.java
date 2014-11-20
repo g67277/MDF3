@@ -34,7 +34,6 @@ import java.util.Date;
  */
 public class CreateViewActivity extends Activity implements CreateFragment.MasterClickListener, LocationListener {
 
-    public static final String EXTRA_ITEM = "com.android.CreateViewActivity.EXTRA_ITEM";
     private static final int REQUEST_TAKE_PICTURE = 0x01001;
     private static final int REQUEST_ENABLE_GPS = 0x02001;
 
@@ -44,6 +43,8 @@ public class CreateViewActivity extends Activity implements CreateFragment.Maste
     double imgLongitude;
     LocationManager locManager;
     String imageName;
+    boolean gpsEnabled;
+    boolean coordsExist;
 
 
     @Override
@@ -62,12 +63,20 @@ public class CreateViewActivity extends Activity implements CreateFragment.Maste
 
         if (intent.getBooleanExtra("create", true)){
             if(savedInstanceState == null) {
+                if (intent.getBooleanExtra("selected", false)){
+                    coordsExist = true;
+                    imgLatitude = intent.getDoubleExtra("lat", 0);
+                    imgLongitude = intent.getDoubleExtra("lng", 0);
+                }else {
+                    coordsExist = false;
+                }
                 CreateFragment frag = CreateFragment.newInstance();
                 getFragmentManager().beginTransaction().replace(R.id.activity_createview, frag, CreateFragment.TAG).commit();
             }
         }else {
 
             if(savedInstanceState == null) {
+
                 ViewFragment frag = ViewFragment.newInstance(intent.getStringExtra("locationName"),
                         intent.getStringExtra("imgUri"),
                         intent.getStringExtra("imgDate"));
@@ -90,7 +99,7 @@ public class CreateViewActivity extends Activity implements CreateFragment.Maste
 
         Intent intent = getIntent();
 
-        if (intent.getBooleanExtra("edit", true)) {
+        if (intent.getBooleanExtra("create", true)) {
             MenuItem saveItem = menu.add("Save");
             saveItem.setShowAsAction(1);
 
@@ -143,7 +152,7 @@ public class CreateViewActivity extends Activity implements CreateFragment.Maste
 
         TheView theView = new TheView(_locationName, camImgUri.toString(), imageName, imgLatitude, imgLongitude);
         try {
-            writeToFile(theView, _locationName);
+            writeToFile(theView, imageName);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -154,14 +163,19 @@ public class CreateViewActivity extends Activity implements CreateFragment.Maste
     @Override
     public void takePic() {
 
-        enableGps();
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        camImgUri = getImageUri();
-        if(camImgUri != null) {
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, camImgUri);
+        if (!coordsExist){
+            enableGps();
+            locManager.removeUpdates(this);
         }
-        startActivityForResult(intent, REQUEST_TAKE_PICTURE);
-        locManager.removeUpdates(this);
+        if (gpsEnabled  || coordsExist) {
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            camImgUri = getImageUri();
+            if (camImgUri != null) {
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, camImgUri);
+            }
+            startActivityForResult(intent, REQUEST_TAKE_PICTURE);
+        }
+
     }
 
     private void addImageToGallery(Uri imageUri) {
@@ -200,17 +214,21 @@ public class CreateViewActivity extends Activity implements CreateFragment.Maste
                 imgLatitude = loc.getLatitude();
                 imgLongitude = loc.getLongitude();
             }
+            gpsEnabled = true;
         }else {
+            gpsEnabled = false;
             new AlertDialog.Builder(this)
                     .setTitle("GPS Unavailable")
-                    .setMessage("Please enabled GPS in the system settings")
+                    .setMessage("Please enabled GPS in the system settings to take a picture")
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Intent settingsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                             startActivityForResult(settingsIntent, REQUEST_ENABLE_GPS);
                         }
-                    }).show();
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
 
         }
 
